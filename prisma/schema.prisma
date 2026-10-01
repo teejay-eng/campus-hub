@@ -1,0 +1,98 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  ADMIN
+  STUDENT
+}
+
+enum HostelGender {
+  MALE
+  FEMALE
+  MIXED
+}
+
+model User {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  password  String
+  role      Role
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  student   Student?
+}
+
+model Student {
+  id              String   @id @default(cuid())
+  userId          String   @unique
+  user            User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  studentId       String   @unique
+  fullName        String
+  age             Int
+  email           String
+  school          String
+  faculty         String
+  course          String
+  yearOfAdmission Int
+  hostelId        String?
+  hostel          Hostel?  @relation(fields: [hostelId], references: [id], onDelete: SetNull)
+  profileImage    String?
+  grades          Grade[]
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+}
+
+model Hostel {
+  id              String       @id @default(cuid())
+  name            String
+  location        String
+  capacity        Int
+  availableSpaces Int
+  gender          HostelGender
+  description     String       @db.Text
+  students        Student[]
+  createdAt       DateTime     @default(now())
+  updatedAt       DateTime     @updatedAt
+}
+
+model Event {
+  id          String   @id @default(cuid())
+  title       String
+  description String   @db.Text
+  date        DateTime @db.Date
+  time        String
+  venue       String
+  image       String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model ReadingMaterial {
+  id          String   @id @default(cuid())
+  title       String
+  description String   @db.Text
+  course      String
+  category    String
+  fileUrl     String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Grade {
+  id           String   @id @default(cuid())
+  studentId    String
+  student      Student  @relation(fields: [studentId], references: [id], onDelete: Cascade)
+  courseCode   String
+  courseName   String
+  semester     Int
+  academicYear String
+  marks        Int
+  grade        String
+  createdAt    DateTime @default(now())
+}
