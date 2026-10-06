@@ -23,8 +23,8 @@ model User {
   email     String   @unique
   password  String
   role      Role
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  createdAt DateTime @default(now()) @db.DateTime(0)
+  updatedAt DateTime @updatedAt @db.DateTime(0)
   student   Student?
 }
 
@@ -44,8 +44,8 @@ model Student {
   hostel          Hostel?  @relation(fields: [hostelId], references: [id], onDelete: SetNull)
   profileImage    String?
   grades          Grade[]
-  createdAt       DateTime @default(now())
-  updatedAt       DateTime @updatedAt
+  createdAt       DateTime @default(now()) @db.DateTime(0)
+  updatedAt       DateTime @updatedAt @db.DateTime(0)
 }
 
 model Hostel {
@@ -57,8 +57,8 @@ model Hostel {
   gender          HostelGender
   description     String       @db.Text
   students        Student[]
-  createdAt       DateTime     @default(now())
-  updatedAt       DateTime     @updatedAt
+  createdAt       DateTime     @default(now()) @db.DateTime(0)
+  updatedAt       DateTime     @updatedAt @db.DateTime(0)
 }
 
 model Event {
@@ -69,8 +69,8 @@ model Event {
   time        String
   venue       String
   image       String?
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  createdAt   DateTime @default(now()) @db.DateTime(0)
+  updatedAt   DateTime @updatedAt @db.DateTime(0)
 }
 
 model ReadingMaterial {
@@ -80,8 +80,8 @@ model ReadingMaterial {
   course      String
   category    String
   fileUrl     String
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  createdAt   DateTime @default(now()) @db.DateTime(0)
+  updatedAt   DateTime @updatedAt @db.DateTime(0)
 }
 
 model Grade {
@@ -94,5 +94,5 @@ model Grade {
   academicYear String
   marks        Int
   grade        String
-  createdAt    DateTime @default(now())
+  createdAt    DateTime @default(now()) @db.DateTime(0)
 }
